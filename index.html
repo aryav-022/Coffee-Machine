@@ -154,11 +154,19 @@
 
 			<div class="page-description">
 				<h1>Wanna Donate?</h1>
-				<button onclick="placeOrder()">Donate</button>
+
+				<stripe-buy-button
+					buy-button-id="buy_btn_1OlHVHSE50HQqJAGY5FhwMpj"
+					publishable-key="pk_live_51Mnp3RSE50HQqJAGeH784NAgYda31HQuYnWOch8DGsNtTawK2MkqdhNwG0swtZDRe1ri9xjf8gXxeiR3YDJ9O6oW00SDR1RuVo"
+				>
+				</stripe-buy-button>
+
 				<h1>Buy me a coffee</h1>
 			</div>
 		</main>
 	</body>
+
+	<script async src="https://js.stripe.com/v3/buy-button.js"></script>
 
 	<script defer>
 		const carousal = document.getElementById("carousal");
