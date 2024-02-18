@@ -5,6 +5,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Document</title>
 		<style>
+			:root {
+				--carousal-before-opacity: 0;
+				--carousal-before-background-color: #4d331c;
+				--carousal-after-background-color: #4d331c;
+			}
+
 			* {
 				margin: 0;
 				padding: 0;
@@ -22,7 +28,8 @@
 				overflow: hidden;
 			}
 
-			.carousal-wrapper::before {
+			.carousal-wrapper::before,
+			.carousal-wrapper::after {
 				content: "";
 				position: absolute;
 				top: 0;
@@ -31,8 +38,18 @@
 				width: max(50%, 500px);
 				aspect-ratio: 1 / 1;
 				border-radius: 50%;
-				background: linear-gradient(150deg, black, rgb(77, 51, 28), black);
+				transition: all 500ms ease;
+			}
+
+			.carousal-wrapper::before {
+				opacity: var(--carousal-before-opacity);
+				background: linear-gradient(150deg, black, var(--carousal-before-background-color), black);
 				z-index: -1;
+			}
+
+			.carousal-wrapper::after {
+				background: linear-gradient(150deg, black, var(--carousal-after-background-color), black);
+				z-index: -2;
 			}
 
 			.carousal {
@@ -75,6 +92,11 @@
 				text-transform: uppercase;
 			}
 
+			.slide p {
+				font-size: large;
+				font-weight: 500;
+			}
+
 			button {
 				display: block;
 				padding: 0.8rem 2rem;
@@ -94,42 +116,6 @@
 				<div class="carousal" id="carousal">
 					<!-- Space Filler -->
 					<div></div>
-
-					<div class="slide" id="slide">
-						<img src="coffee1.png" alt="" />
-						<h2>Americano</h2>
-					</div>
-					<div class="slide" id="slide">
-						<img src="coffee1.png" alt="" />
-						<h2>Macchiato</h2>
-					</div>
-					<div class="slide" id="slide">
-						<img src="coffee1.png" alt="" />
-						<h2>Flat White</h2>
-					</div>
-					<div class="slide" id="slide">
-						<img src="coffee1.png" alt="" />
-						<h2>Cold</h2>
-					</div>
-					<div class="slide" id="slide">
-						<img src="coffee1.png" alt="" />
-						<h2>Espresso</h2>
-					</div>
-					<div class="slide" id="slide">
-						<img src="coffee1.png" alt="" />
-						<h2>Latte</h2>
-					</div>
-					<div class="slide" id="slide">
-						<img src="coffee1.png" alt="" />
-						<h2>Cappuccino</h2>
-					</div>
-					<div class="slide" id="slide">
-						<img src="coffee1.png" alt="" />
-						<h2>Mocha</h2>
-					</div>
-
-					<!-- Space Filler -->
-					<div></div>
 				</div>
 			</div>
 
@@ -139,13 +125,47 @@
 
 	<script defer>
 		const carousal = document.getElementById("carousal");
-		const slides = document.querySelectorAll("#slide");
+		let slides = [];
+		let currSlide = 0;
 
-		let currSlide = Math.floor(slides.length / 2) - 1;
-		carousal.scrollBy({ left: slides[currSlide].offsetLeft, behavior: "auto" });
+		fetch("./coffee.json")
+			.then((response) => response.json())
+			.then((data) => {
+				data.forEach((coffee) => {
+					const slide = document.createElement("div");
+					slide.className = "slide";
+					slide.id = "slide";
+					slide.setAttribute("data-color", coffee.color);
+					slide.innerHTML = `
+						<img src="${coffee.image}" alt="" />
+						<h2>${coffee.name}</h2>
+						<p>${coffee.price / 100} $</p>
+					`;
+
+					carousal.appendChild(slide);
+					slides.push(slide);
+				});
+
+				// Space Filler
+				const spaceFiller = document.createElement("div");
+				carousal.appendChild(spaceFiller);
+
+				currSlide = Math.floor(slides.length / 2) - 1;
+				carousal.scrollBy({ left: slides[currSlide].offsetLeft, behavior: "auto" });
+
+				slides.forEach((slide, index) => {
+					slide.addEventListener("click", () => {
+						if (currSlide === index) return;
+						const direction = index > currSlide ? 1 : -1;
+						carousal.scrollBy({ left: direction * 100, behavior: "smooth" });
+					});
+				});
+			})
+			.catch((err) => console.error(err));
 
 		carousal.addEventListener("scroll", () => {
 			let minDistance = Infinity;
+			let minSlide = -1;
 
 			// determine slides scale value which always lies between 0.7 to 1 based on the distance from the center
 			slides.forEach((slide, index) => {
@@ -157,21 +177,36 @@
 
 				if (distance < minDistance) {
 					minDistance = distance;
-					currSlide = index;
+					minSlide = index;
 				}
 			});
-		});
 
-		slides.forEach((slide, index) => {
-			slide.addEventListener("click", () => {
-				if (currSlide === index) return;
-				const direction = index > currSlide ? 1 : -1;
-				carousal.scrollBy({ left: direction * 100, behavior: "smooth" });
-			});
+			if (currSlide !== minSlide) {
+				currSlide = minSlide;
+
+				document.documentElement.style.setProperty(
+					"--carousal-before-background-color",
+					slides[currSlide].dataset.color
+				);
+
+				document.documentElement.style.setProperty("--carousal-before-opacity", "1");
+
+				setTimeout(() => {
+					document.documentElement.style.setProperty(
+						"--carousal-after-background-color",
+						slides[currSlide].dataset.color
+					);
+					document.documentElement.style.setProperty("--carousal-before-opacity", "0");
+				}, 500);
+			}
 		});
 
 		function placeOrder() {
-			alert(`Order Placed: ${slides[currSlide].querySelector("h2").textContent}`);
+			alert(
+				`Order Placed: ${slides[currSlide].querySelector("h2").textContent} - ${
+					slides[currSlide].querySelector("p").textContent
+				}`
+			);
 		}
 	</script>
 </html>
