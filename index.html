@@ -35,7 +35,9 @@
 				top: 0;
 				left: 50%;
 				translate: -50% -50%;
-				width: max(50%, 500px);
+				width: 50%;
+				min-width: 450px;
+				max-width: 700px;
 				aspect-ratio: 1 / 1;
 				border-radius: 50%;
 				transition: all 500ms ease;
@@ -78,12 +80,14 @@
 				scale: 0.5;
 			}
 
-			.slide img {
-				display: block;
+			.slide .img {
 				margin: auto;
-				width: 65%;
-				height: 100%;
-				object-fit: cover;
+				width: 100%;
+				max-width: 330px;
+				height: clamp(250px, 67vw, 440px);
+				background-position: center;
+				background-size: cover;
+				background-repeat: no-repeat;
 			}
 
 			.slide h2 {
@@ -137,7 +141,7 @@
 					slide.id = "slide";
 					slide.setAttribute("data-color", coffee.color);
 					slide.innerHTML = `
-						<img src="${coffee.image}" alt="" />
+						<div class="img" style="background-image: url(./${coffee.image})"></div>
 						<h2>${coffee.name}</h2>
 						<p>${coffee.price / 100} $</p>
 					`;
