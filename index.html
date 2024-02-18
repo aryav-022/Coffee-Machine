@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: sans-serif;
+			}
+
+			main {
+				padding: 0 0 1rem 0;
+			}
+
+			.carousal-wrapper {
+				position: relative;
+				width: 100%;
+				overflow: hidden;
+			}
+
+			.carousal-wrapper::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 50%;
+				translate: -50% -50%;
+				width: max(50%, 500px);
+				aspect-ratio: 1 / 1;
+				border-radius: 50%;
+				background: linear-gradient(150deg, black, rgb(77, 51, 28), black);
+				z-index: -1;
+			}
+
+			.carousal {
+				position: relative;
+				display: grid;
+				grid-auto-flow: column;
+				grid-auto-columns: 50%;
+				padding: 3rem 0;
+				transition: all 0.5s ease-in-out;
+				overflow: auto;
+				scroll-snap-type: x mandatory;
+			}
+
+			.carousal::-webkit-scrollbar {
+				display: none;
+			}
+
+			.slide {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				z-index: 2;
+				overflow: hidden;
+				scroll-snap-align: center;
+				cursor: pointer;
+				scale: 0.5;
+			}
+
+			.slide img {
+				display: block;
+				margin: auto;
+				width: 65%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.slide h2 {
+				text-align: center;
+				font-weight: 600;
+				text-transform: uppercase;
+			}
+
+			button {
+				display: block;
+				padding: 0.8rem 2rem;
+				border: none;
+				border-radius: 0.5rem;
+				background: black;
+				color: white;
+				cursor: pointer;
+				font-size: medium;
+				margin: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="carousal-wrapper">
+				<div class="carousal" id="carousal">
+					<!-- Space Filler -->
+					<div></div>
+
+					<div class="slide" id="slide">
+						<img src="coffee1.png" alt="" />
+						<h2>Americano</h2>
+					</div>
+					<div class="slide" id="slide">
+						<img src="coffee1.png" alt="" />
+						<h2>Macchiato</h2>
+					</div>
+					<div class="slide" id="slide">
+						<img src="coffee1.png" alt="" />
+						<h2>Flat White</h2>
+					</div>
+					<div class="slide" id="slide">
+						<img src="coffee1.png" alt="" />
+						<h2>Cold</h2>
+					</div>
+					<div class="slide" id="slide">
+						<img src="coffee1.png" alt="" />
+						<h2>Espresso</h2>
+					</div>
+					<div class="slide" id="slide">
+						<img src="coffee1.png" alt="" />
+						<h2>Latte</h2>
+					</div>
+					<div class="slide" id="slide">
+						<img src="coffee1.png" alt="" />
+						<h2>Cappuccino</h2>
+					</div>
+					<div class="slide" id="slide">
+						<img src="coffee1.png" alt="" />
+						<h2>Mocha</h2>
+					</div>
+
+					<!-- Space Filler -->
+					<div></div>
+				</div>
+			</div>
+
+			<button onclick="placeOrder()">Order Now</button>
+		</main>
+	</body>
+
+	<script defer>
+		const carousal = document.getElementById("carousal");
+		const slides = document.querySelectorAll("#slide");
+
+		let currSlide = Math.floor(slides.length / 2) - 1;
+		carousal.scrollBy({ left: slides[currSlide].offsetLeft, behavior: "auto" });
+
+		carousal.addEventListener("scroll", () => {
+			let minDistance = Infinity;
+
+			// determine slides scale value which always lies between 0.7 to 1 based on the distance from the center
+			slides.forEach((slide, index) => {
+				const distance = Math.abs(
+					carousal.scrollLeft + carousal.clientWidth / 2 - slide.offsetLeft - slide.clientWidth / 2
+				);
+				const scale = Math.max(0.5, 1 - distance / 500);
+				slide.style.scale = `${scale}`;
+
+				if (distance < minDistance) {
+					minDistance = distance;
+					currSlide = index;
+				}
+			});
+		});
+
+		slides.forEach((slide, index) => {
+			slide.addEventListener("click", () => {
+				if (currSlide === index) return;
+				const direction = index > currSlide ? 1 : -1;
+				carousal.scrollBy({ left: direction * 100, behavior: "smooth" });
+			});
+		});
+
+		function placeOrder() {
+			alert(`Order Placed: ${slides[currSlide].querySelector("h2").textContent}`);
+		}
+	</script>
+</html>
