@@ -1,49 +1,49 @@
 [
 	{
 		"name": "Americano",
-		"image": "coffee1.png",
+		"image": "assets/coffee1.png",
 		"color": "#6F3132",
 		"price": 700
 	},
 	{
 		"name": "Macchiato",
-		"image": "coffee1.png",
+		"image": "assets/coffee1.png",
 		"color": "#ad6730",
 		"price": 750
 	},
 	{
 		"name": "Flat White",
-		"image": "coffee1.png",
+		"image": "assets/coffee1.png",
 		"color": "#FBFEFF",
 		"price": 350
 	},
 	{
 		"name": "Cold Coffee",
-		"image": "coffee1.png",
+		"image": "assets/coffee1.png",
 		"color": "#B18F6A",
 		"price": 800
 	},
 	{
 		"name": "Espresso",
-		"image": "coffee1.png",
+		"image": "assets/coffee1.png",
 		"color": "#4D331C",
 		"price": 500
 	},
 	{
 		"name": "Latte",
-		"image": "coffee1.png",
+		"image": "assets/coffee1.png",
 		"color": "#A67B5B",
 		"price": 450
 	},
 	{
 		"name": "Cappuccino",
-		"image": "coffee1.png",
+		"image": "assets/coffee1.png",
 		"color": "#633F33",
 		"price": 600
 	},
 	{
 		"name": "Mocha",
-		"image": "coffee1.png",
+		"image": "assets/coffee1.png",
 		"color": "#967969",
 		"price": 650
 	}

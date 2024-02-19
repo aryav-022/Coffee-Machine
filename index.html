@@ -3,178 +3,25 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
-		<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
-		<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
-		<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
-		<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png" />
-		<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
-		<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
-		<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
-		<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon/apple-icon-57x57.png" />
+		<link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon/apple-icon-60x60.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon/apple-icon-72x72.png" />
+		<link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon/apple-icon-76x76.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon/apple-icon-114x114.png" />
+		<link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon/apple-icon-120x120.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon/apple-icon-144x144.png" />
+		<link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon/apple-icon-152x152.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-icon-180x180.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/android-icon-192x192.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
 		<link rel="manifest" href="/manifest.json" />
 		<meta name="msapplication-TileColor" content="#ffffff" />
 		<meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
 		<meta name="theme-color" content="#ffffff" />
+		<link rel="stylesheet" href="style.css" />
 		<title>Dev Donate</title>
-		<style>
-			:root {
-				--carousal-before-opacity: 0;
-				--carousal-before-background-color: #4d331c;
-				--carousal-after-background-color: #4d331c;
-			}
-
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-				font-family: sans-serif;
-			}
-
-			.dev-name {
-				position: absolute;
-				top: 0;
-				left: 0;
-				padding: 0.7rem;
-				color: #3e3e3e;
-				background-color: #ffffffec;
-			}
-
-			@media screen and (max-width: 768px) {
-				.dev-name {
-					top: unset;
-					bottom: 0;
-				}
-			}
-
-			main {
-				padding: 0 0 1rem 0;
-			}
-
-			main > :is(h1, h2) {
-				text-align: center;
-			}
-
-			.carousal-wrapper {
-				position: relative;
-				width: 100%;
-				overflow: hidden;
-			}
-
-			.carousal-wrapper::before,
-			.carousal-wrapper::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 50%;
-				translate: -50% -50%;
-				width: 50%;
-				min-width: 450px;
-				max-width: 700px;
-				aspect-ratio: 1 / 1;
-				border-radius: 50%;
-				transition: all 500ms ease;
-			}
-
-			.carousal-wrapper::before {
-				opacity: var(--carousal-before-opacity);
-				background: linear-gradient(150deg, black, var(--carousal-before-background-color), black);
-				z-index: -1;
-			}
-
-			.carousal-wrapper::after {
-				background: linear-gradient(150deg, black, var(--carousal-after-background-color), black);
-				z-index: -2;
-			}
-
-			.carousal {
-				position: relative;
-				display: grid;
-				grid-auto-flow: column;
-				grid-auto-columns: 50%;
-				padding: 2rem 0;
-				transition: all 0.5s ease-in-out;
-				overflow: auto;
-				scroll-snap-type: x mandatory;
-			}
-
-			.carousal::-webkit-scrollbar {
-				display: none;
-			}
-
-			.slide {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				z-index: 2;
-				overflow: hidden;
-				scroll-snap-align: center;
-				cursor: pointer;
-				scale: 0.5;
-			}
-
-			.slide .img {
-				margin: auto;
-				width: 100%;
-				max-width: 330px;
-				height: clamp(250px, 67vw, 440px);
-				background-position: center;
-				background-size: cover;
-				background-repeat: no-repeat;
-			}
-
-			.slide h2 {
-				text-align: center;
-				font-weight: 600;
-				text-transform: uppercase;
-			}
-
-			.slide p {
-				font-size: large;
-				font-weight: 500;
-			}
-
-			.page-description {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				gap: 1rem;
-				padding: 0 1rem;
-			}
-
-			.page-description :nth-child(3) {
-				text-align: right;
-			}
-
-			@media screen and (max-width: 768px) {
-				.page-description {
-					flex-direction: column;
-				}
-
-				.page-description h1 {
-					order: 1;
-				}
-
-				.page-description > * {
-					text-align: center;
-				}
-			}
-
-			.page-description button {
-				display: block;
-				padding: 0.8rem 2rem;
-				border: none;
-				border-radius: 0.5rem;
-				background: black;
-				color: white;
-				cursor: pointer;
-				font-size: medium;
-			}
-		</style>
 	</head>
 	<body>
 		<h4 class="dev-name">Dev Aryav's Donate Page</h4>
@@ -202,105 +49,5 @@
 	</body>
 
 	<script async src="https://js.stripe.com/v3/buy-button.js"></script>
-
-	<script defer>
-		const carousal = document.getElementById("carousal");
-		let slides = [];
-		let currSlide = 0;
-
-		(async function () {
-			try {
-				await populateData();
-
-				slides.forEach((slide, index) => {
-					slide.onclick = () => {
-						if (currSlide === index) return;
-
-						carousal.scrollTo({
-							left: slides[index].offsetLeft + slides[index].clientWidth / 2 - carousal.clientWidth / 2,
-							behavior: "smooth",
-						});
-					};
-				});
-
-				currSlide = Math.floor(slides.length / 2);
-				carousal.scrollTo({
-					left: slides[currSlide].offsetLeft + slides[currSlide].clientWidth / 2 - carousal.clientWidth / 2,
-				});
-			} catch (error) {
-				console.error(error);
-			}
-		})();
-
-		carousal.addEventListener("scroll", () => {
-			let minDistance = Infinity;
-			let minSlide = -1;
-
-			// determine slides scale value which always lies between 0.5 to 1 based on the distance from the center
-			slides.forEach((slide, index) => {
-				const distance = Math.abs(
-					carousal.scrollLeft + carousal.clientWidth / 2 - slide.offsetLeft - slide.clientWidth / 2
-				);
-				const scale = Math.max(0.5, 1 - distance / 500);
-				slide.style.scale = `${scale}`;
-
-				if (distance < minDistance) {
-					minDistance = distance;
-					minSlide = index;
-				}
-			});
-
-			if (currSlide !== minSlide) {
-				currSlide = minSlide;
-
-				document.documentElement.style.setProperty(
-					"--carousal-before-background-color",
-					slides[currSlide].dataset.color
-				);
-
-				document.documentElement.style.setProperty("--carousal-before-opacity", "1");
-
-				setTimeout(() => {
-					document.documentElement.style.setProperty(
-						"--carousal-after-background-color",
-						slides[currSlide].dataset.color
-					);
-					document.documentElement.style.setProperty("--carousal-before-opacity", "0");
-				}, 500);
-			}
-		});
-
-		async function populateData() {
-			const coffeeTypes = await fetch("./coffee.json").then((res) => res.json());
-
-			coffeeTypes.forEach((coffee) => {
-				const slide = document.createElement("div");
-
-				slide.className = "slide";
-				slide.id = "slide";
-				slide.setAttribute("data-color", coffee.color);
-
-				slide.innerHTML = `
-					<div class="img" style="background-image: url(./${coffee.image})"></div>
-					<h2>${coffee.name}</h2>
-					<p>&#8377;${coffee.price / 100}</p>
-				`;
-
-				carousal.appendChild(slide);
-				slides.push(slide);
-			});
-
-			// Space Filler
-			const spaceFiller = document.createElement("div");
-			carousal.appendChild(spaceFiller);
-		}
-
-		function placeOrder() {
-			alert(
-				`Order Placed: ${slides[currSlide].querySelector("h2").textContent} - ${
-					slides[currSlide].querySelector("p").textContent
-				}`
-			);
-		}
-	</script>
+	<script src="script.js"></script>
 </html>

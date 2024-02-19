@@ -1,0 +1,153 @@
+:root {
+    --carousal-before-opacity: 0;
+    --carousal-before-background-color: #4d331c;
+    --carousal-after-background-color: #4d331c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.dev-name {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.7rem;
+    color: #3e3e3e;
+    background-color: #ffffffec;
+}
+
+@media screen and (max-width: 768px) {
+    .dev-name {
+        top: unset;
+        bottom: 0;
+    }
+}
+
+main {
+    padding: 0 0 1rem 0;
+}
+
+main > :is(h1, h2) {
+    text-align: center;
+}
+
+.carousal-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousal-wrapper::before,
+.carousal-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% -50%;
+    width: 50%;
+    min-width: 450px;
+    max-width: 700px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    transition: all 500ms ease;
+}
+
+.carousal-wrapper::before {
+    opacity: var(--carousal-before-opacity);
+    background: linear-gradient(150deg, black, var(--carousal-before-background-color), black);
+    z-index: -1;
+}
+
+.carousal-wrapper::after {
+    background: linear-gradient(150deg, black, var(--carousal-after-background-color), black);
+    z-index: -2;
+}
+
+.carousal {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 50%;
+    padding: 2rem 0;
+    transition: all 0.5s ease-in-out;
+    overflow: auto;
+    scroll-snap-type: x mandatory;
+}
+
+.carousal::-webkit-scrollbar {
+    display: none;
+}
+
+.slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    overflow: hidden;
+    scroll-snap-align: center;
+    cursor: pointer;
+    scale: 0.5;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.slide .img {
+    margin: auto;
+    width: 100%;
+    max-width: 330px;
+    height: clamp(250px, 67vw, 440px);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.slide h2 {
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.slide p {
+    font-size: large;
+    font-weight: 500;
+}
+
+.page-description {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.page-description :nth-child(3) {
+    text-align: right;
+}
+
+@media screen and (max-width: 768px) {
+    .page-description {
+        flex-direction: column;
+    }
+
+    .page-description h1 {
+        order: 1;
+    }
+
+    .page-description > * {
+        text-align: center;
+    }
+}
+
+.page-description button {
+    display: block;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: black;
+    color: white;
+    cursor: pointer;
+    font-size: medium;
+}
