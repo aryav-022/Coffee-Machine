@@ -122,8 +122,8 @@
 					flex-direction: column;
 				}
 
-				.page-description button {
-					order: -1;
+				.page-description h1 {
+					order: 1;
 				}
 
 				.page-description > * {
@@ -173,46 +173,37 @@
 		let slides = [];
 		let currSlide = 0;
 
-		fetch("./coffee.json")
-			.then((response) => response.json())
-			.then((data) => {
-				data.forEach((coffee) => {
-					const slide = document.createElement("div");
-					slide.className = "slide";
-					slide.id = "slide";
-					slide.setAttribute("data-color", coffee.color);
-					slide.innerHTML = `
-						<div class="img" style="background-image: url(./${coffee.image})"></div>
-						<h2>${coffee.name}</h2>
-						<p>${coffee.price / 100} $</p>
-					`;
-
-					carousal.appendChild(slide);
-					slides.push(slide);
-				});
-
-				// Space Filler
-				const spaceFiller = document.createElement("div");
-				carousal.appendChild(spaceFiller);
-
-				currSlide = Math.floor(slides.length / 2) - 1;
-				carousal.scrollBy({ left: slides[currSlide].offsetLeft, behavior: "auto" });
+		(async function () {
+			try {
+				await populateData();
 
 				slides.forEach((slide, index) => {
-					slide.addEventListener("click", () => {
+					slide.onclick = () => {
 						if (currSlide === index) return;
-						const direction = index > currSlide ? 1 : -1;
-						carousal.scrollBy({ left: direction * 100, behavior: "smooth" });
-					});
+
+						carousal.scrollTo({
+							left: slides[index].offsetLeft + slides[index].clientWidth / 2 - carousal.clientWidth / 2,
+							behavior: "smooth",
+						});
+					};
 				});
-			})
-			.catch((err) => console.error(err));
+
+				currSlide = Math.floor(slides.length / 2);
+				carousal.scrollTo({
+					left: slides[currSlide].offsetLeft + slides[currSlide].clientWidth / 2 - carousal.clientWidth / 2,
+				});
+
+				console.log(slides[currSlide]);
+			} catch (error) {
+				console.error(error);
+			}
+		})();
 
 		carousal.addEventListener("scroll", () => {
 			let minDistance = Infinity;
 			let minSlide = -1;
 
-			// determine slides scale value which always lies between 0.7 to 1 based on the distance from the center
+			// determine slides scale value which always lies between 0.5 to 1 based on the distance from the center
 			slides.forEach((slide, index) => {
 				const distance = Math.abs(
 					carousal.scrollLeft + carousal.clientWidth / 2 - slide.offsetLeft - slide.clientWidth / 2
@@ -245,6 +236,31 @@
 				}, 500);
 			}
 		});
+
+		async function populateData() {
+			const coffeeTypes = await fetch("./coffee.json").then((res) => res.json());
+
+			coffeeTypes.forEach((coffee) => {
+				const slide = document.createElement("div");
+
+				slide.className = "slide";
+				slide.id = "slide";
+				slide.setAttribute("data-color", coffee.color);
+
+				slide.innerHTML = `
+					<div class="img" style="background-image: url(./${coffee.image})"></div>
+					<h2>${coffee.name}</h2>
+					<p>${coffee.price / 100} $</p>
+				`;
+
+				carousal.appendChild(slide);
+				slides.push(slide);
+			});
+
+			// Space Filler
+			const spaceFiller = document.createElement("div");
+			carousal.appendChild(spaceFiller);
+		}
 
 		function placeOrder() {
 			alert(
