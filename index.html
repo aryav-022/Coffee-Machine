@@ -35,6 +35,22 @@
 				font-family: sans-serif;
 			}
 
+			.dev-name {
+				position: absolute;
+				top: 0;
+				left: 0;
+				padding: 0.7rem;
+				color: #3e3e3e;
+				background-color: #ffffffec;
+			}
+
+			@media screen and (max-width: 768px) {
+				.dev-name {
+					top: unset;
+					bottom: 0;
+				}
+			}
+
 			main {
 				padding: 0 0 1rem 0;
 			}
@@ -161,6 +177,8 @@
 		</style>
 	</head>
 	<body>
+		<h4 class="dev-name">Dev Aryav's Donate Page</h4>
+
 		<main>
 			<div class="carousal-wrapper">
 				<div class="carousal" id="carousal">
@@ -265,7 +283,7 @@
 				slide.innerHTML = `
 					<div class="img" style="background-image: url(./${coffee.image})"></div>
 					<h2>${coffee.name}</h2>
-					<p>${coffee.price / 100} $</p>
+					<p>&#8377;${coffee.price / 100}</p>
 				`;
 
 				carousal.appendChild(slide);
